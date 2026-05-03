@@ -16,9 +16,11 @@ public class Shooter : MonoBehaviour
     
     private Coroutine _fireRoutine;
     private bool _isFiring = false;
+    private AudioManager _audioManager;
 
     private void Start()
     {
+        _audioManager = FindFirstObjectByType<AudioManager>();
         if (useAI)
         {
             IsFiring = true;
@@ -64,6 +66,7 @@ public class Shooter : MonoBehaviour
             projectileRigidbody.linearVelocity = transform.up * projectileSpeed;
             Destroy(projectile, projectileLifeTime);
             var waitTime = GetFireRateTime();
+            _audioManager.PlayShootingSfx();
             yield return new WaitForSeconds(waitTime);
         }
     }
